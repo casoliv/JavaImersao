@@ -6,7 +6,7 @@ import br.com.targettrust.locadora.entidades.Equipamento;
 
 public interface EquipamentoRepository {
 	void insertEquipamento (Equipamento equipamento);
-	void updatetEquipamento(Equipamento equipamento);
+	void updateEquipamento (Equipamento equipamento);
 	void deleteEquipamento (Equipamento equipamento);
 	List<Equipamento> list();
 	

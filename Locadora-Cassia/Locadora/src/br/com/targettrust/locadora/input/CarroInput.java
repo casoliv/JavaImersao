@@ -23,6 +23,7 @@ public class CarroInput {
 		carro.setCor(scanner.next());
 		System.out.println("Informe a quantidade de portas");
 		carro.setPortas(scanner.nextInt());
+		
 		CarroRepository carroRepository = new CarroRepositoryImpl();
 		carroRepository.insertCarro(carro);
 		

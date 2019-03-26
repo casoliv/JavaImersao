@@ -1,0 +1,23 @@
+package br.com.targettrust.locadora.input;
+
+import java.util.Scanner;
+
+import br.com.targettrust.locadora.db.EquipamentoRepository;
+import br.com.targettrust.locadora.db.EquipamentoRepositoryImpl;
+import br.com.targettrust.locadora.entidades.Equipamento;
+
+
+
+public class EquipamentoInput {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		Equipamento equipamento = new Equipamento();
+		System.out.println("Informe a descricao");
+		equipamento.setDescricao(scanner.next());
+		EquipamentoRepositoryImpl carroRepository = new EquipamentoRepositoryImpl();
+		EquipamentoRepository.insertEquipamento(equipamento);
+		
+		scanner.close();
+	}	
+}

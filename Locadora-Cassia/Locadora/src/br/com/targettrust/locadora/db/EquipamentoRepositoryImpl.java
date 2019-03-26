@@ -11,13 +11,12 @@ import java.util.List;
 
 import br.com.targettrust.locadora.entidades.Equipamento;
 
-public class EquipamentoRepositoryImpl {
+public class EquipamentoRepositoryImpl implements EquipamentoRepository{
 
 	
 	public void insertEquipamento(Equipamento equipamento) {
 		try {
-			String sql = "INSERT INTO equipamento(" + "	descricao)"
-					+ "	VALUES (?)";
+			String sql = "INSERT INTO equipamento(?)";
 			Connection connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setString(1, equipamento.getDescricao());
@@ -35,7 +34,8 @@ public class EquipamentoRepositoryImpl {
 	public void updateEquipamento(Equipamento Equipamento) {
 		// TODO Auto-generated method stub
         String sql = "UPDATE equipamento " 
-        		   + "SET descricao=?"
+        		   + "SET (descricao)"
+        		   + "values (?) "
         		   + "WHERE id=?";
         try {
 	        Connection connection = getConnection();
@@ -55,18 +55,17 @@ public class EquipamentoRepositoryImpl {
 	public List<Equipamento> listEquipamentos() {
 		// TODO Auto-generated method stub
 		try {
-			String sql = "select * from Equipamento";
+			String sql = "select * from equipamento";
 			Connection connection = getConnection();
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
-			List<Equipamento> Equipamentos = new ArrayList<>();
+			List<Equipamento> equipamentos = new ArrayList<>();
 			while (resultSet.next()) {
-				Equipamento Equipamento = new Equipamento();
-				// popular
-				Equipamento.setDescricao(resultSet.getString("descricao"));
-				Equipamentos.add(Equipamento);
+				Equipamento equipamento = new Equipamento();
+				equipamento.setDescricao(resultSet.getString("descricao"));
+				equipamentos.add(equipamento);
 			}
-			return Equipamentos;
+			return equipamentos;
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -75,10 +74,6 @@ public class EquipamentoRepositoryImpl {
 	}
 
 
-	public void delete(Integer id) {
-		// TODO Auto-generated method stub
-
-	}
 
 	private Connection getConnection() {
 		Connection connection = null;
@@ -91,7 +86,21 @@ public class EquipamentoRepositoryImpl {
 		}
 		return connection;
 	}
-	
-	
+
+
+	@Override
+	public void deleteEquipamento(Equipamento equipamento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public List<Equipamento> list() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 }
 
