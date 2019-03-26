@@ -1,0 +1,14 @@
+
+public class Funcionario {
+	private Integer matricula;
+
+	public Integer getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(Integer matricula) {
+		this.matricula = matricula;
+	}
+	
+
+}

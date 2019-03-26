@@ -1,0 +1,9 @@
+
+public class Veiculo {
+	private String  placa;
+	private String  cor;
+	private Integer ano;
+	private String  marca;
+	private String  modelo;
+
+}
