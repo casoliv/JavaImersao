@@ -13,14 +13,14 @@ import br.com.targettrust.locadora.entidades.Equipamento;
 
 public class EquipamentoRepositoryImpl {
 
-	
+	@Override
 	public void insertEquipamento(Equipamento equipamento) {
 		try {
 			String sql = "INSERT INTO equipamento(" + "	descricao)"
 					+ "	VALUES (?)";
 			Connection connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, equipamento.getDescricao());
+			statement.setString(1, equipamento.getdescricao());
 			statement.executeUpdate();
 			statement.close();
 			connection.close();
@@ -28,19 +28,25 @@ public class EquipamentoRepositoryImpl {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		System.out.println("Equipamento inserido com sucesso");
+		System.out.println("Equipamento de placa " + Equipamento.getPlaca() + "inserido com sucesso");
 	}
 
-	
+	@Override
 	public void updateEquipamento(Equipamento Equipamento) {
 		// TODO Auto-generated method stub
-        String sql = "UPDATE equipamento " 
-        		   + "SET descricao=?"
+        String sql = "UPDATE Equipamento " 
+        		   + "SET placa=?, marca=?, modelo=?, cor=?, portas=?, ano=?"
         		   + "WHERE id=?";
         try {
 	        Connection connection = getConnection();
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, Equipamento.getDescricao());
+			statement.setString(1, Equipamento.getPlaca());
+			statement.setString(2, Equipamento.getMarca());
+			statement.setString(3, Equipamento.getModelo());
+			statement.setString(4, Equipamento.getCor());
+			statement.setInt(5, Equipamento.getPortas());
+			statement.setInt(6, Equipamento.getAno());
+			statement.setInt(7, Equipamento.getId());
 			statement.executeUpdate();
 			statement.close();
 			connection.close();
@@ -48,10 +54,11 @@ public class EquipamentoRepositoryImpl {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		System.out.println("Equipamento alterado com sucesso");
+		System.out.println("Equipamento de placa " + Equipamento.getPlaca() + "alterado com sucesso");
 	}
         
 
+	@Override
 	public List<Equipamento> listEquipamentos() {
 		// TODO Auto-generated method stub
 		try {
@@ -63,7 +70,11 @@ public class EquipamentoRepositoryImpl {
 			while (resultSet.next()) {
 				Equipamento Equipamento = new Equipamento();
 				// popular
-				Equipamento.setDescricao(resultSet.getString("descricao"));
+				Equipamento.setCor(resultSet.getString("cor"));
+				Equipamento.setMarca(resultSet.getString("marca"));
+				Equipamento.setModelo(resultSet.getString("modelo"));
+				Equipamento.setPlaca(resultSet.getString("placa"));
+				Equipamento.setPortas(resultSet.getInt("portas"));
 				Equipamentos.add(Equipamento);
 			}
 			return Equipamentos;
@@ -74,8 +85,8 @@ public class EquipamentoRepositoryImpl {
 		return null;
 	}
 
-
-	public void delete(Integer id) {
+	@Override
+	public void delete(String placa) {
 		// TODO Auto-generated method stub
 
 	}

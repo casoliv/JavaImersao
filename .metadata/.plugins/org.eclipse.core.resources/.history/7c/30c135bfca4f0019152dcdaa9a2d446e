@@ -5,9 +5,12 @@ import java.util.List;
 import br.com.targettrust.locadora.entidades.Equipamento;
 
 public interface EquipamentoRepository {
-	void insertEquipamento (Equipamento equipamento);
-	void updatetEquipamento(Equipamento equipamento);
-	void deleteEquipamento (Equipamento equipamento);
-	List<Equipamento> list();
+	void insertEquipamento(Equipamento equipamento);
 	
+	void updatetEquipamento(Equipamento equipamento);
+	
+	List<Equipamento> listEquipamwentos();
+	
+	void delete(String id);
+
 }
