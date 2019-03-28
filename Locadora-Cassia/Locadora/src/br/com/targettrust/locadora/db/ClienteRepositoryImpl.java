@@ -78,7 +78,7 @@ public class ClienteRepositoryImpl implements ClienteRepository {
 	private Connection getConnection() {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/locadora", "postgres",
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Locadora", "postgres",
 					"postgres");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

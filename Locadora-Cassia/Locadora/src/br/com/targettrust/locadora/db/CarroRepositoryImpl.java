@@ -91,9 +91,19 @@ public class CarroRepositoryImpl implements CarroRepository {
 	}
 
 	@Override
-	public void delete(String placa) {
+	public void deleteCarro(String placa) {
 		// TODO Auto-generated method stub
-
+		String sql = "delete from CARRO where placa = ?";
+		try {
+			Connection connection = this.getConnection();
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, carro.getPlaca());
+			ps.executeUpdate();
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 
 	private Connection getConnection() {

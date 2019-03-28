@@ -1,26 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-<fullyQualifiedTypeName name="java.util.List"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestController"/>
-<fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
-<fullyQualifiedTypeName name="br.com.targettrust.bancott.dominio.dao.AgenciaDAO"/>
-<fullyQualifiedTypeName name="br.com.targettrust.bancott.dominio.dao.ClienteDAO"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
-<fullyQualifiedTypeName name="br.com.targettrust.bancott.dominio.Agencia"/>
-<fullyQualifiedTypeName name="br.com.targettrust.bancott.dominio.Cliente"/>
-<fullyQualifiedTypeName name="java.net.URI"/>
-<fullyQualifiedTypeName name="org.springframework.web.servlet.support.ServletUriComponentsBuilder"/>
-<fullyQualifiedTypeName name="org.springframework.data.jpa.repository.JpaRepository"/>
-<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
-<fullyQualifiedTypeName name="br.com.targettrust.bancott.dominio.ContaDTO"/>
-<fullyQualifiedTypeName name="br.com.targettrust.bancott.dominio.Conta"/>
-<fullyQualifiedTypeName name="org.apache.catalina.authenticator.SavedRequest"/>
-<fullyQualifiedTypeName name="br.com.targettrust.bancott.dominio.dao.ContaDAO"/>
 <fullyQualifiedTypeName name="br.com.targettrust.bancott.ContaFoudException"/>
 <fullyQualifiedTypeName name="br.com.targettrust.bancott.ContaNotFoudException"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ResponseStatus"/>
-<fullyQualifiedTypeName name="java.lang.RuntimeException"/>
 <fullyQualifiedTypeName name="br.com.targettrust.bancott.ClienteNotFoundException"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PutMapping"/>
 <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
@@ -60,4 +42,22 @@
 <fullyQualifiedTypeName name="io.swagger.models.Contact"/>
 <fullyQualifiedTypeName name="springfox.documentation.service.Contact"/>
 <fullyQualifiedTypeName name="io.swagger.annotations.ApiModelProperty"/>
+<fullyQualifiedTypeName name="br.com.targettrust.locadora.entidades.Equipamento"/>
+<fullyQualifiedTypeName name="br.com.targettrust.locadora.db.EquipamentoRepository"/>
+<fullyQualifiedTypeName name="br.com.targettrust.locadora.db.EquipamentoRepositoryImpl"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="java.lang.RuntimeException"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="java.sql.Statement"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.sql.DriverManager"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="java.lang.AssertionError"/>
+<fullyQualifiedTypeName name="br.com.targettrust.locadora.db.CarroRepositoryImpl"/>
+<fullyQualifiedTypeName name="br.com.targettrust.locadora.entidades.Carro"/>
+<fullyQualifiedTypeName name="br.com.targettrust.locadora.db.CarroRepository"/>
+<fullyQualifiedTypeName name="org.junit.Test"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>
