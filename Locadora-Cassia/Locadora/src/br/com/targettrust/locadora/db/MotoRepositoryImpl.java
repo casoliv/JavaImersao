@@ -86,5 +86,11 @@ public class MotoRepositoryImpl implements MotoRepository{
 		return connection;
 	}
 
+	@Override
+	public void delete(Integer i) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

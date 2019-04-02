@@ -5,30 +5,34 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.postgresql.util.PSQLException;
+
 import br.com.targettrust.locadora.entidades.Carro;
+import br.com.targettrust.locadora.exception.PlacaJaCadastradaException;
+import br.com.targettrust.locadora.exception.VeiculoNaoEncontradoException;
 
 public class CarroRepositoryImpl implements CarroRepository {
 
 	@Override
 	public void insertCarro(Carro carro) {
 		try {
-			String sql = "INSERT INTO carro(" + "	placa, marca, modelo, cor, portas, ano)"
+			String insert = "INSERT INTO veiculo(" + "	placa, marca, modelo, cor, portas)"
 					+ "	VALUES (? , ?, ?, ?, ?)";
 			Connection connection = getConnection();
-			PreparedStatement statement = connection.prepareStatement(sql);
+			PreparedStatement statement = connection.prepareStatement(insert);
 			statement.setString(1, carro.getPlaca());
 			statement.setString(2, carro.getMarca());
 			statement.setString(3, carro.getModelo());
 			statement.setString(4, carro.getCor());
 			statement.setInt(5, carro.getPortas());
-			statement.setInt(6, carro.getAno());
 			statement.executeUpdate();
 			statement.close();
 			connection.close();
+		} catch (PSQLException e) {
+			throw new PlacaJaCadastradaException();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -39,37 +43,37 @@ public class CarroRepositoryImpl implements CarroRepository {
 	@Override
 	public void updateCarro(Carro carro) {
 		// TODO Auto-generated method stub
-        String sql = "UPDATE carro " 
-        		   + "SET placa=?, marca=?, modelo=?, cor=?, portas=?, ano=?"
-        		   + "WHERE id=?";
-        try {
-	        Connection connection = getConnection();
-			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, carro.getPlaca());
-			statement.setString(2, carro.getMarca());
-			statement.setString(3, carro.getModelo());
-			statement.setString(4, carro.getCor());
-			statement.setInt(5, carro.getPortas());
-			statement.setInt(6, carro.getAno());
-			statement.setInt(7, carro.getId());
-			statement.executeUpdate();
-			statement.close();
+		String sql = "UPDATE veiculo SET " + "  placa = ?, marca = ?, modelo = ?," + "  cor = ?, portas = ?, ano = ? "
+				+ " WHERE id = ? ";
+		try {
+			Connection connection = this.getConnection();
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, carro.getPlaca());
+			ps.setString(2, carro.getMarca());
+			ps.setString(3, carro.getModelo());
+			ps.setString(4, carro.getCor());
+			ps.setInt(5, carro.getPortas());
+			ps.setInt(6, carro.getAno());
+			ps.setInt(7, carro.getId());
+			int result = ps.executeUpdate();
+			if (result < 1) {
+				throw new VeiculoNaoEncontradoException();
+			}
 			connection.close();
-        } catch (Exception e) {
-			// TODO: handle exception
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Carro de placa " + carro.getPlaca() + "alterado com sucesso");
+
 	}
-        
 
 	@Override
 	public List<Carro> listCarros() {
 		// TODO Auto-generated method stub
 		try {
-			String sql = "select * from carro";
+			String sql = "select * from veiculo where tipo = ?";
 			Connection connection = getConnection();
-			Statement statement = connection.createStatement();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(1, "CARRO");
 			ResultSet resultSet = statement.executeQuery(sql);
 			List<Carro> carros = new ArrayList<>();
 			while (resultSet.next()) {
@@ -91,31 +95,77 @@ public class CarroRepositoryImpl implements CarroRepository {
 	}
 
 	@Override
-	public void deleteCarro(String placa) {
-		// TODO Auto-generated method stub
-		String sql = "delete from CARRO where placa = ?";
+	public void delete(String placa) {
+		String sql = "delete from veiculo where placa = ?";
 		try {
-			Connection connection = this.getConnection();
+			Connection connection = getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setInt(1, carro.getPlaca());
-			ps.executeUpdate();
-		}
-		catch (Exception e) {
+			ps.setString(1, placa);
+			int result = ps.executeUpdate();
+			if (result < 1) {
+				throw new VeiculoNaoEncontradoException();
+			}
+		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
 	}
 
-	private Connection getConnection() {
+	@Override
+	public void delete(Integer id) {
+		String sql = "delete from veiculo where id = ?";
+		try {
+			Connection connection = getConnection();
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, id);
+			int result = ps.executeUpdate();
+			if (result < 1) {
+				throw new VeiculoNaoEncontradoException();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+	public static Connection getConnection() {
 		Connection connection = null;
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Locadora", "postgres",
+			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/locadora", "postgres",
 					"postgres");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return connection;
+	}
+
+	@Override
+	public Carro findByPlaca(String placa) {
+		String sql = "select * from veiculo where placa = ?";
+		try {
+			Connection connection = getConnection();
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, placa);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				Carro carro = new Carro();
+				carro.setId(rs.getInt("id"));
+				carro.setAno(rs.getInt("ano"));
+				carro.setCor(rs.getString("cor"));
+				carro.setMarca(rs.getString("marca"));
+				carro.setModelo(rs.getString("modelo"));
+				carro.setPlaca(rs.getString("placa"));
+				carro.setPortas(rs.getInt("portas"));
+				return carro;
+			}
+		} catch (PSQLException e) {
+			throw new PlacaJaCadastradaException();
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO: handle exception
+		}
+		return null;
 	}
 
 }

@@ -13,6 +13,8 @@ public interface MotoRepository {
 	List<Moto> listMotos();
 		
 	void delete(String placa);
+
+	void delete(Integer i);
 		
 
 }
