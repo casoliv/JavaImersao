@@ -1,8 +1,6 @@
 package br.com.targettrust.locadora.db;
 
-
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,43 +12,45 @@ import org.postgresql.util.PSQLException;
 
 import br.com.targettrust.locadora.entidades.Equipamento;
 import br.com.targettrust.locadora.exception.EquipamentoJaCadastradoException;
+import br.com.targettrust.locadora.util.DbUtil;
 
 public class EquipamentoRepositoryImpl implements EquipamentoRepository{
 
 	@Override
-	public void insertEquipamento(Equipamento equipamento) {
+	public void insert(Equipamento equipamento) {
 		if(equipamento.getId() != null) {
 			throw new IllegalArgumentException("Para inclusão de veículo o id "
 					+ " não deve ser informado");
 		}
 		if(equipamento.getDescricao() == null ||
-				equipamento.getDescricao().equals("")) {
+				equipamento.getDescricao().trim().equals("")) {
 			throw new IllegalArgumentException("O campo descrição é obrigatório");
 		}
-
-	String sql = "insert into EQUIPAMENTO (DESCRICAO ) values ( ? )";
-	try {
-		Connection connection = this.getConnection();
-		PreparedStatement ps = connection.prepareStatement(sql);
-		ps.setString(1, equipamento.getDescricao());
-		ps.executeUpdate();
-	}
-	catch (PSQLException e) {
-		throw new EquipamentoJaCadastradoException();
-	}
-	catch (Exception e) {
-		// TODO: handle exception
-		e.printStackTrace();
-	}
-
-}
-	@Override
-	public void updateEquipamento(Equipamento equipamento) {
-		// TODO Auto-generated method stub
-		String sql = "update EQUIPAMENTO set (descricao) "
-				+ "values ( ? ) where id = ?";
+		
+		String sql = "insert into EQUIPAMENTO (DESCRICAO) values ( ? )";
 		try {
-			Connection connection = this.getConnection();
+			Connection connection = DbUtil.getConnection();
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, equipamento.getDescricao());
+			ps.executeUpdate();
+		}
+		catch (PSQLException e) {
+			throw new EquipamentoJaCadastradoException();
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		
+	}
+
+	@Override
+	public void update(Equipamento equipamento) {
+		// TODO Auto-generated method stub
+		String sql = "update EQUIPAMENTO set descricao = ? "
+				+ " where id = ?";
+		try {
+			Connection connection = DbUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setString(1, equipamento.getDescricao());
 			ps.setInt(2, equipamento.getId());
@@ -58,18 +58,22 @@ public class EquipamentoRepositoryImpl implements EquipamentoRepository{
 		}
 		catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public void deleteEquipamento(Equipamento equipamento) {
+	public void delete(Equipamento equipamento) {
 		// TODO Auto-generated method stub
 		String sql = "delete from EQUIPAMENTO where id = ?";
 		try {
-			Connection connection = this.getConnection();
+			Connection connection = DbUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, equipamento.getId());
 			ps.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
 		}
 		catch (Exception e) {
 			// TODO: handle exception
@@ -83,7 +87,7 @@ public class EquipamentoRepositoryImpl implements EquipamentoRepository{
 		// TODO Auto-generated method stub
 		String sql = "select * from EQUIPAMENTO";
 		try {
-			Connection connection = this.getConnection();
+			Connection connection = DbUtil.getConnection();
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			List<Equipamento> equipamentos = new ArrayList<>();
@@ -103,16 +107,46 @@ public class EquipamentoRepositoryImpl implements EquipamentoRepository{
 	}
 
 
-	private Connection getConnection() {
-		Connection connection = null;
+	@Override
+	public Equipamento findById(Integer id) {
+		String sql = "select * from EQUIPAMENTO where id = ?";
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Locadora", "postgres",
-					"postgres");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Connection connection = DbUtil.getConnection();
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				Equipamento equipamento = new Equipamento();
+				equipamento.setId(rs.getInt("id"));
+				equipamento.setDescricao(rs.getString("descricao"));
+				return equipamento;
+			}
 		}
-		return connection;
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+
+	@Override
+	public Equipamento findByDescricao(String descricao) {
+		String sql = " select * from EQUIPAMENTO where DESCRICAO = ? "; 
+		try {
+			Connection connection = DbUtil.getConnection();
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ps.setString(1, descricao);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				Equipamento equipamento = new Equipamento();
+				equipamento.setId(rs.getInt("id"));
+				equipamento.setDescricao(rs.getString("descricao"));
+				return equipamento;				
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
 	}
 
 }

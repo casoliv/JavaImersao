@@ -37,7 +37,7 @@ public class MotoRepositoryTest {
 		moto.setPlaca("PPP-1234");
 		moto.setCilindradas(750);
 		// Act
-		motoRepository.insertMoto(moto);
+		motoRepository.insert(moto);
 		// Assert
 		Moto motoDb = motoRepository.findByPlaca(moto.getPlaca());
 		Assert.assertNotNull(motoDb);
@@ -57,9 +57,9 @@ public class MotoRepositoryTest {
 		moto1.setPlaca("PPP-1234");
 		moto1.setCilindradas(750);
 	
-		motoRepository.insertMoto(moto1);
+		motoRepository.insert(moto1);
 		// Act
-		motoRepository.insertMoto(moto1);
+		motoRepository.insert(moto1);
 		// Assert
 		
 	}
@@ -74,11 +74,11 @@ public class MotoRepositoryTest {
 		moto.setModelo("GT");
 		moto.setPlaca("PPP-1234");
 		moto.setCilindradas(750);
-		motoRepository.insertMoto(moto);
+		motoRepository.insert(moto);
 		moto.setId(motoRepository.findByPlaca(moto.getPlaca()).getId());
 		moto.setCor("Preto");
 		//Act
-		motoRepository.updateMoto(moto);
+		motoRepository.update(moto);
 		//Assert
 		Moto motoDb = motoRepository.findByPlaca(moto.getPlaca());
 		Assert.assertEquals(motoDb.getCor(), moto.getCor());		
@@ -96,7 +96,7 @@ public class MotoRepositoryTest {
 		moto.setCilindradas(750);
 		moto.setId(9999);
 		// Act
-		motoRepository.updateMoto(moto);
+		motoRepository.update(moto);
 		// Assert
 		
 	}

@@ -2,19 +2,22 @@ package br.com.targettrust.locadora.db;
 
 import java.util.List;
 
+import br.com.targettrust.locadora.entidades.Entidade;
 import br.com.targettrust.locadora.entidades.Moto;
 
 public interface MotoRepository {
 		
-	void insertMoto(Moto moto);
+	void insert(Moto moto);
 	
-	void updateMoto(Moto moto);
+	void update(Moto moto);
 	
-	List<Moto> listMotos();
+	List<Moto> list();
 		
 	void delete(String placa);
 
-	void delete(Integer i);
+	Moto findByPlaca(String placa);
+
+	void delete(Integer id);
 		
 
 }

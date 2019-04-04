@@ -10,7 +10,7 @@ public class MotoOutput {
 
 	public static void main(String[] args) {
 		MotoRepository motoRepository = new MotoRepositoryImpl();
-		List<Moto> motos = motoRepository.listMotos();
+		List<Moto> motos = motoRepository.list();
 		System.out.println(motos.size());
 	}
 }

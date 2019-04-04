@@ -16,7 +16,7 @@ public class EquipamentoInput {
 		equipamento.setDescricao(scanner.next());
 		
 		EquipamentoRepository equipamentoRepository = new EquipamentoRepositoryImpl();
-		equipamentoRepository.insertEquipamento(equipamento);
+		equipamentoRepository.insert(equipamento);
 		
 		scanner.close();
 	}	
